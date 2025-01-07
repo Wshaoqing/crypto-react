@@ -10,7 +10,7 @@ const App: React.FC = () => {
     const [searchInput, setSearchInput] = useState(''); // 输入框的值
     const [searchQuery, setSearchQuery] = useState(''); // 用于 API 的搜索条件
     const [currentPage, setCurrentPage] = useState(1);
-    const [totalPages, setTotalPages] = useState(10);
+    const [totalPages] = useState(10);
     const itemsPerPage = 10;
 
     // 加载数据

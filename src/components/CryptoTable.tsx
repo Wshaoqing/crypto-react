@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Card, DataTable, Spinner, TextField } from '@shopify/polaris';
+import { Card, DataTable, Spinner } from '@shopify/polaris';
 import { formatCurrency, formatMarketCap } from '../api/utils';
 
 interface CryptoTableProps {
@@ -32,7 +32,7 @@ const CryptoTable: React.FC<CryptoTableProps> = ({ data, loading }) => {
     rows={rows}
     sortable={[false, false, true, false]}
     onSort={() => setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc')}
-    defaultSortDirection="desc"
+    defaultSortDirection={"descending"}
         />
 )}
     </Card>

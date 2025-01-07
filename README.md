@@ -36,7 +36,7 @@ Follow the steps below to get your environment set up and run the project.
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/your-username/crypto-quotation-app.git
+https://github.com/Wshaoqing/crypto-react.git
 ```
 
 ### 2. Install dependencies
@@ -44,7 +44,7 @@ git clone https://github.com/your-username/crypto-quotation-app.git
 Navigate to the project folder and install the necessary dependencies.
 
 ```bash
-cd crypto-quotation-app
+cd crypto-react
 npm install
 ```
 
@@ -53,7 +53,7 @@ npm install
 Run the following command to start the app in development mode:
 
 ```bash
-npm start
+npm run dev
 ```
 
 This will open the application in your default web browser at `http://localhost:3000`.
@@ -118,7 +118,7 @@ The search functionality is applied on the client side after the data is fetched
 To start the development server, run:
 
 ```bash
-npm start
+npm run dev
 ```
 
 This will automatically open the app in your browser.
