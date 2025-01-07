@@ -1,25 +1,12 @@
-以下是一个适用于该项目的 **README.md** 文件模板，包含项目构建的步骤、功能说明以及如何运行该项目的指南：
-
----
-
-# Cryptocurrency Live Quotation App
+# Cryptocurrency Live
 
 This is a web-based cryptocurrency live quotation app built using **React**, **TypeScript**, and **Shopify Polaris UI**. It fetches live market data from **CoinGecko API** and allows users to search for specific cryptocurrencies by name or symbol. The app displays real-time cryptocurrency prices and other market data, such as market cap and price changes.
-
-## Features
-
-- **Live Data**: Fetches real-time cryptocurrency data from CoinGecko API.
-- **Search**: Search for cryptocurrencies by name or symbol.
-- **Sorting**: Sort the cryptocurrency list by price.
-- **Pagination**: View paginated cryptocurrency data to handle large datasets.
-- **Responsive Design**: Optimized for both desktop and mobile devices.
-- **User-Friendly UI**: Utilizes **Shopify Polaris UI** for consistent and polished design.
 
 ## Tech Stack
 
 - **Frontend**: React, TypeScript, Shopify Polaris UI
 - **API**: CoinGecko API (RESTful)
-- **State Management**: React Hooks
+- **State Management**: React
 - **Styling**: Shopify Polaris
 
 ## Prerequisites
@@ -56,62 +43,32 @@ Run the following command to start the app in development mode:
 npm run dev
 ```
 
-This will open the application in your default web browser at `http://localhost:3000`.
-
-## How It Works
-
-### **Fetching Cryptocurrency Data**
-
-The app uses the **CoinGecko API** to fetch live data of cryptocurrencies. We fetch the following details:
-
-- Name
-- Symbol
-- Current price in USD
-- Market capitalization
-
-The data is displayed in a table format, with sorting and pagination capabilities.
-
-### **Search Functionality**
-
-The search input allows users to search for cryptocurrencies by name or symbol. The search works in real-time, and the data will be filtered accordingly.
-
-### **Pagination**
-
-The data is paginated with the ability to move between pages. You can adjust the number of results per page.
+This will open the application in your default web browser at `http://localhost:5173`.
 
 ## File Structure
 
 ```plaintext
 src/
+├── api/
+│   ├── cryptoApi.ts           // API request functions for fetching data from CoinGecko
+│   ├── utils.ts               // Utility functions like currency formatting
 ├── components/
 │   ├── CryptoTable.tsx        // Data table for displaying cryptocurrencies
 │   ├── Pagination.tsx         // Pagination controls
-├── services/
-│   ├── cryptoApi.ts           // API request functions for fetching data from CoinGecko
-│   ├── utils.ts               // Utility functions like currency formatting
-├── App.tsx                    // Main component that integrates everything
-├── index.tsx                  // Application entry point
+├── view/
+│   ├── market.tsx             //Bussiness Static Page
+├── main.tsx                  // Application entry point
 ```
 
 ## API Integration
 
-We are using **CoinGecko API** to fetch cryptocurrency market data. The API endpoint used is:
+We are using [CoinGecko API](https://docs.coingecko.com/reference) to fetch cryptocurrency market data. The API endpoint used is:
 
 ```plaintext
 GET https://api.coingecko.com/api/v3/coins/markets
 ```
 
-This endpoint returns a list of cryptocurrencies, including their current price, market cap, and other relevant data. The parameters used are:
-
-- **vs_currency**: The currency in which we want the prices (USD).
-- **order**: The sorting order of the cryptocurrencies (market_cap_desc for descending order by market cap).
-- **per_page**: The number of results to fetch per page.
-- **page**: The page number for pagination.
-- **sparkline**: Set to `false` to disable sparkline data.
-
-The search functionality is applied on the client side after the data is fetched.
-
-## Development
+## Development LocalHost(option 1)
 
 ### 1. Start the Development Server
 
@@ -139,18 +96,157 @@ To build the app for production, use the following command:
 npm run build
 ```
 
-This will create an optimized build of the app in the `build/` directory.
+This will create an optimized build of the app in the `dist/` directory.
 
-## Contributing
+## Development shell file for Linux(option 2)
 
-We welcome contributions to improve this project! To contribute:
+### 1: Transfer Script to Server
 
-1. Fork the repository
-2. Create a new branch
-3. Make your changes
-4. Submit a pull request
+Upload the `deploy.sh` file to your server using `scp` or another transfer tool:
 
-Please make sure to follow the coding style and ensure all tests pass.
+```bash
+scp deploy.sh serverAddress:/path/to/deploy.sh
+```
 
+### 2: Make the Script Executable
+
+Log into your server and run:
+
+```bash
+chmod +x /path/to/deploy.sh
+```
+
+### 3: Execute the Script
+
+Run the script to deploy your React project:
+
+```bash
+/path/to/deploy.sh
+```
+
+---
+
+## Deployment Docker for Linux(option 3)
+
+### 1: Build the Docker Image Locally
+
+After creating the `Dockerfile`, you can build the Docker image using the following command:
+
+```bash
+docker build -t your-dockerhub-username/crypto-react
+```
+
+### **Explanation:**
+
+- Replace `your-dockerhub-username/your-react-app` with your Docker Hub username and repository name.
+
+---
+
+### 2: Log in to Docker Hub
+
+Before pushing the image to Docker Hub, log in using the following command:
+
+```bash
+docker login
+```
+
+You will be prompted to enter your Docker Hub username and password.
+
+---
+
+## 3: Push the Docker Image to Docker Hub
+
+Once you have successfully built the image, push it to your Docker Hub repository:
+
+```bash
+docker push your-dockerhub-username/crypto-react
+```
+
+## 4: Automate the Deployment on the Server
+
+Once the image is pushed to Docker Hub, you can pull the image on your Linux server and run the container automatically using the following steps:
+
+### 4.1 Install Docker on the Server
+
+If Docker is not already installed on your server, you can install it by running the following commands (for Ubuntu):
+
+```bash
+sudo apt update
+sudo apt install -y docker.io
+```
+
+### 4.2 Pull the Docker Image from Docker Hub
+
+On your Linux server, pull the Docker image using:
+
+```bash
+docker pull your-dockerhub-username/crypto-react
+```
+
+### 4.3. Run the Docker Container**
+
+Once the image is pulled, you can run the container:
+
+```bash
+docker run -d -p 80:80 --name react-app your-dockerhub-username/crypto-react
+```
+
+### **4.4 Check if the Container is Running**
+
+Verify that the container is running:
+
+```bash
+docker ps
+```
+
+### 5: Automate Deployment Shell Script
+
+To further automate the deployment process, you can create a shell script that pulls the latest Docker image from Docker Hub and restarts the container.
+
+## Sample `deploy-docker.sh` Script
+
+Create a file called `deploy.sh` on your server:
+
+```bash
+#!/bin/bash
+
+# Define the image name
+IMAGE="your-dockerhub-username/crypto-react"
+
+docker pull $IMAGE
+docker stop crypto-react
+docker rm crypto-react
+docker run -d -p 80:80 --name crypto-react $IMAGE
+
+echo " complete!"
+```
+
+### **Make the Script Executable**
+
+```bash
+chmod +x deploy.sh
+```
+
+## 
+
+**Nginx Configuration**
+
+```nginx
+server {
+    listen 80;
+    server_name your-domain.com;
+
+    root /usr/share/nginx/html;
+    index index.html;
+
+    location / {
+        try_files $uri /index.html;
+    }
+
+    error_page 404 /index.html;
+}
+```
+
+```
 
 ```
